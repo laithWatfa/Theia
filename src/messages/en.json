@@ -1,0 +1,105 @@
+{
+    "login": "Log In",
+    "signup": "Sign Up",
+    "theia" : "Theia",
+    "heroH1": "where we transform Eye Care with",
+    "heroH2": "Data-Driven Precision.",
+    "heroP": "Using AI and advanced databases, we simplify eye care for doctors, enhancing diagnostics and streamlining clinic management.",
+    "welcomeBack": "Welcome Back",
+    "newToTheia":"New to Theia?",
+    "createAnAccount":"Create an account.",
+    "username":"Username",
+    "usernamePlaceHolder":"Enter your username",
+    "password":"Password",
+    "forgetPass": "Forget Password?.",
+    
+    "createYourAccount":"Create Your Account.",
+    "alreadyHaveAccount":"Already hand an account?",
+    "loginHere":"Log in here.",
+    "email":"Email",
+    "confirmPassword":"Confirm Password",
+    "firstName":"First Name",
+    "lastName":"Last Name",
+    "role":"Role",
+    "rolePlaceHolder":"Doctor",
+    "specialization":"Specialization",
+    "specializationPlaceHolder":"Eyes",
+    "phoneNumber":"Phone Number",
+
+    "searchByName":"Search By Name",
+    "addPatient": "Add Patient",
+    "patientName": "Patient Name",
+    "phone":"Phone",
+    "contact":"Contact Information",
+    "contactPlaceHolder":"exapmle@gmail.com",
+    "dateOfBirth":"Date Of Birth",
+    "gender":"Gender",
+    "address":"Address",
+    "addressPlaceHolder":"Homs,Syria",
+    "insurance":"Insurance Information",
+    "insurancePlaceHolder":"",
+
+    
+    "uploadPatientPhoto":"Upload patient photo",
+    "fullName":"Full Name",
+    "male":"Male",
+    "female":"Female",
+    "cancel":"Cancel",
+    "add":"Add",
+  
+    "treatments":"Treatments",
+    "appointments":"Appointments",
+    "bills" :"Bills",
+    "diagnose": "Diagnose",
+    "patients": "Patients",
+    "logout": "Log Out",
+    "settings": "Settings",
+
+    "addDiagnose":"New Diagnose",
+    "leftEye":"Left Fundus",
+    "rightEye":"Right Fundus",
+    "choosePatient":"Choose Patient",
+    "choosePatientPlaceHolder":"Enter Patient Name",
+    "uploadImage":"Choose an Image",
+    "notes":"Notes",
+
+
+
+
+    "chooseLanguage": "Choose your language",
+    "english": "English",
+    "arabic": "العربية",
+    "loading":"Loading",
+    "profileInfo":"Profile Information",
+    "yrs":"yrs",
+    "noNotes":"There is No Notes",
+    
+    "newAppointment":"New Appointment",
+    "appointmentDateTime":"Date",
+
+    "errors": {
+    "nameRequired":"",
+    "dobRequired":"",
+    "usernameRequired": "Username is required.",
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "roleRequired": "Role is required.",
+    "specializationRequired": "Specialization is required.",
+    "invalidEmail": "Enter a valid email address.",
+    "invalidPhone": "Enter a valid phone number.",
+    "passwordLength": "Password must be at least 6 characters.",
+    "passwordMismatch": "Passwords do not match."
+  },
+
+    "placeholders": {
+    "username": "Enter your username",
+    "email": "example@gmail.com",
+    "password": "******",
+    "confirmPassword": "******",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "Doctor",
+    "specialization": "Eyes",
+    "phone": "09********"
+  }
+}
