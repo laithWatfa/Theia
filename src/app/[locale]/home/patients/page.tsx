@@ -1,13 +1,14 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, use } from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { FaPhone } from "react-icons/fa6";
 import AddPatientForm from "@/components/AddPatientForm";
 import { MdEmail } from "react-icons/md";
 import { useApi } from "@/hooks/useApi";
-import { addNewPatient } from "@/lib/users";
+import { addNewPatient, getPatients } from "@/lib/users";
 import { useTranslations } from "next-intl";
+import { error } from "console";
 
 const FakePatients: Patient[] = [ 
     { id: "1", personal_photo: null,
@@ -67,14 +68,24 @@ type Patient = {
 export default function PatientsPage() {
   const [search, setSearch] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [reload,setReload] = useState(true);
   const t = useTranslations();
 
-  const { data, loading, error, refetch } = useApi<Patient[]>("/api/users/users/patients/");
+  // const { data, loading, error, refetch } = useApi<[]>("/api/users/users/patients/");
   const [patients, setPatients] = useState<Patient[]>([]);
 
   useEffect(() => {
-    if (data) setPatients(data);
-  }, [data]);
+
+    async function loadPatients() {
+      try {
+        const p = await getPatients();
+        setPatients(p);
+      }catch(err){
+        console.log(err)
+      }
+    }
+    loadPatients();
+  }, [reload]);
 
   //  useEffect(() => {
   //   setPatients(FakePatients);
@@ -86,10 +97,10 @@ export default function PatientsPage() {
     );
   }, [search, patients]);
 
-  const handleAddPatient = async (patient: Omit<Patient, "id" | "clinic" | "age" | "doctors"> & { clinic_id: string }) => {
+  const handleAddPatient = async (patient:FormData) => {
     try {
       const newPatient: Patient = await addNewPatient(patient);
-      setPatients((prev) => [...prev, newPatient]);
+      setReload(false)
     } catch (err) {
       console.error("Failed to add patient:", err);
     }

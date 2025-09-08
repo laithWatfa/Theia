@@ -13,12 +13,12 @@ export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
-    role: "",
-    specialization: "",
+    role: "DOCTOR",
+    spicialzaton: "",
     password: "",
     password2: "",
   });
@@ -37,11 +37,11 @@ export default function SignupPage() {
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.username.trim()) newErrors.username = t("errors.usernameRequired");
-    if (!formData.firstName.trim()) newErrors.firstName = t("errors.firstNameRequired");
-    if (!formData.lastName.trim()) newErrors.lastName = t("errors.lastNameRequired");
+    if (!formData.first_name.trim()) newErrors.first_name = t("errors.firstNameRequired");
+    if (!formData.last_name.trim()) newErrors.last_name = t("errors.last_nameRequired");
     if (!formData.role.trim()) newErrors.role = t("errors.roleRequired");
-    if (!formData.specialization.trim())
-      newErrors.specialization = t("errors.specializationRequired");
+    if (!formData.spicialzaton.trim())
+      newErrors.spicialzaton = t("errors.specializationRequired");
     if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       newErrors.email = t("errors.invalidEmail");
     }
@@ -208,13 +208,13 @@ export default function SignupPage() {
                 </label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="first_name"
+                  value={formData.first_name}
                   onChange={handleChange}
                   placeholder={t("placeholders.firstName")}
                   className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
                 />
-                <InputError error={errors.firstName} />
+                <InputError error={errors.first_name} />
               </div>
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-[2px]">
@@ -222,13 +222,13 @@ export default function SignupPage() {
                 </label>
                 <input
                   type="text"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="last_name"
+                  value={formData.last_name}
                   onChange={handleChange}
                   placeholder={t("placeholders.lastName")}
                   className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
                 />
-                <InputError error={errors.lastName} />
+                <InputError error={errors.last_name} />
               </div>
             </div>
 
@@ -236,31 +236,17 @@ export default function SignupPage() {
             <div className="flex gap-2">
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-[2px]">
-                  {t("role")}
-                </label>
-                <input
-                  type="text"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  placeholder={t("placeholders.role")}
-                  className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
-                />
-                <InputError error={errors.role} />
-              </div>
-              <div className="flex-1">
-                <label className="block text-sm font-semibold mb-[2px]">
                   {t("specialization")}
                 </label>
                 <input
                   type="text"
-                  name="specialization"
-                  value={formData.specialization}
+                  name="spicialzaton"
+                  value={formData.spicialzaton}
                   onChange={handleChange}
                   placeholder={t("placeholders.specialization")}
                   className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
                 />
-                <InputError error={errors.specialization} />
+                <InputError error={errors.spicialzaton} />
               </div>
             </div>
 

@@ -25,10 +25,14 @@ type Patient = {
 };
 
 type Appointment = {
-  appointment_id: number;
-  patient: number;
+  id: string;
+  patient: string;
+  status: "SCHEDULED" | "COMPLETED"  | "CANCELED"
   appointment_datetime: string;
   doctor: number;
+  doctor_name:string;
+  patient_name:string;
+  notes:string;
 };
 
 
@@ -51,10 +55,10 @@ const mockPatients: Patient[] = [
   },
 ];
 
-const mockAppointments: Appointment[] = [
-  { appointment_id: 201, patient: 1, appointment_datetime: "2025-09-06 10:30", doctor: 8 },
-  { appointment_id: 202, patient: 2, appointment_datetime: "2025-09-06 12:00", doctor: 8 },
-];
+// const mockAppointments: Appointment[] = [
+//   { appointment_id: 201, patient: 1, appointment_datetime: "2025-09-06 10:30", doctor: 8 },
+//   { appointment_id: 202, patient: 2, appointment_datetime: "2025-09-06 12:00", doctor: 8 },
+// ];
 
 // --------------------
 // Component
@@ -63,7 +67,7 @@ export default function AppointmentsPage() {
   const t = useTranslations();
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [appointments, setAppointments] = useState<Appointment[]>(mockAppointments);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [patients, setPatients] = useState<Patient[]>(mockPatients);
   const [loading, setLoading] = useState(true);
 
@@ -138,13 +142,13 @@ export default function AppointmentsPage() {
             {
             const date = new Date(a.appointment_datetime);
             // Day of the week (e.g., Sunday)
-const weekday = date.toLocaleString('en-US', { weekday: 'short' });
+            const weekday = date.toLocaleString('en-US', { weekday: 'short' });
 
 // Day of the month (e.g., 7)
-const dayOfMonth = date.getDate();
+            const dayOfMonth = date.getDate();
 
 // Year (e.g., 2025)
-const year = date.getFullYear();
+            const year = date.getFullYear();
 
 // Time of day in 12-hour format (e.g., 2:16 AM)
 const time12hr = date.toLocaleString('en-US', {
@@ -155,7 +159,7 @@ const time12hr = date.toLocaleString('en-US', {
 
 
             return <li
-              key={a.appointment_id}
+              key={a.appointment_datetime}
               className="flex gap-2 border rounded px-4 py-2 shadow-sm bg-white"
             >
               {/*Day*/}
@@ -175,7 +179,7 @@ const time12hr = date.toLocaleString('en-US', {
                   <h3 className="font-bold text-text-700">{a.patient_name}</h3>
                 </div>
                 <p>
-                  <span className="text-sm text-text-700">{time12hr}</span>
+                  <span className="text-sm text-text-700">{a.status}{"  "}{time12hr}</span>
                 </p>
               </div>
             </li>;

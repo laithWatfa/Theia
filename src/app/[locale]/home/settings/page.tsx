@@ -11,7 +11,7 @@ type Profile = {
   first_name: string;
   last_name: string;
   email: string;
-  specialization: string;
+  spicialzaton: string;
   phone: string;
 };
 
@@ -21,7 +21,7 @@ const staticProfile = {
     "first_name": "Magd",
     "last_name": "Hndi",
     "email": "doctor.new@example.com",
-    "specialization": "Eyes",
+    "spicialzaton": "Eyes",
     "phone": "1234567890"
 }
 
@@ -40,9 +40,9 @@ export default function SettingsPage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // const data = await getUserProfile(); // ⬅️ call helper
-        // setProfile(data);
-        setProfile(staticProfile);
+        const data = await getUserProfile(); 
+        setProfile(data);
+        // setProfile(staticProfile);
     } catch (err: any) {
         setError(err.message || "Failed to load profile");
       } finally {
@@ -57,11 +57,9 @@ export default function SettingsPage() {
     const newLocale = event.target.value;
     setSelected(newLocale);
 
-    // Save preference
     localStorage.setItem("preferredLocale", newLocale);
     document.cookie = `preferredLocale=${newLocale}; path=/; max-age=31536000`;
 
-    // Redirect to same page with new locale
     const newPath = [segments[0], newLocale, ...segments.slice(2)].join("/");
     router.push(newPath);
   };
@@ -89,7 +87,7 @@ export default function SettingsPage() {
           </div>
           <div className="py-2 border-b-1 border-text-300">
             <span className="font-bold">{t("specialization")}:</span>{" "}
-            {profile.specialization}
+            {profile.spicialzaton}
           </div>
           <div className="py-2 ">
             <span className="font-bold">{t("phone")}:</span> {profile.phone}

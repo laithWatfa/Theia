@@ -46,41 +46,42 @@ const t = useTranslations();
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const data: Patient[] = getPatients();
-        setPatients(
-            [ 
-    { id: "1", personal_photo: null,
-    full_name: "مجد هندي",
-    date_of_birth: "2002-11-16", 
-    gender: "MALE", age: 22, 
-    clinic: { id: "c1",
-            name: "Majd Clinic", 
-            location: "Homs, Alarman", 
-            created_at: "2025-07-17T15:43:07.545455Z",
-            }, 
-    address: "Damascus, Syria", 
-    phone: "095-123-4567", 
-    insurance_info: "", 
-    contact_info: "magd@example.com", 
-    doctors: [5], 
-    },
-    { id: "2", 
-    personal_photo: null, 
-    full_name: "May Dalloul", 
-    date_of_birth: "2003-11-26", 
-    gender: "FEMALE", 
-    age: 21, 
-    clinic: { id: "c1", 
-            name: "Majd Clinic", 
-            location: "Homs, Alarman", 
-            created_at: "2025-07-17T15:43:07.545455Z", 
-            }, address: "Homs, Syria", 
-            phone: "093-222-4444", 
-            insurance_info: "", 
-            contact_info: "may@example.com", 
-            doctors: [5], 
-    }, ]
-        );
+        const data = (await getPatients()) as Patient[];
+        setPatients(data)
+    //     setPatients(
+    //         [ 
+    // { id: "1", personal_photo: null,
+    // full_name: "مجد هندي",
+    // date_of_birth: "2002-11-16", 
+    // gender: "MALE", age: 22, 
+    // clinic: { id: "c1",
+    //         name: "Majd Clinic", 
+    //         location: "Homs, Alarman", 
+    //         created_at: "2025-07-17T15:43:07.545455Z",
+    //         }, 
+    // address: "Damascus, Syria", 
+    // phone: "095-123-4567", 
+    // insurance_info: "", 
+    // contact_info: "magd@example.com", 
+    // doctors: [5], 
+    // },
+    // { id: "2", 
+    // personal_photo: null, 
+    // full_name: "May Dalloul", 
+    // date_of_birth: "2003-11-26", 
+    // gender: "FEMALE", 
+    // age: 21, 
+    // clinic: { id: "c1", 
+    //         name: "Majd Clinic", 
+    //         location: "Homs, Alarman", 
+    //         created_at: "2025-07-17T15:43:07.545455Z", 
+    //         }, address: "Homs, Syria", 
+    //         phone: "093-222-4444", 
+    //         insurance_info: "", 
+    //         contact_info: "may@example.com", 
+    //         doctors: [5], 
+    // }, ]
+    //     );
       } catch (err: any) {
         console.error(err);
         setError("Could not load patients");

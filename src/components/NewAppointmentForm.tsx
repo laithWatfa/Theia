@@ -21,6 +21,7 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
   const [query, setQuery] = useState("");
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [appointmentDateTime, setAppointmentDateTime] = useState("");
+  const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,8 +50,9 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
 
     try {
       const payload = {
-        patient_id: selectedPatient.id,
+        patient: selectedPatient.id,
         appointment_datetime: appointmentDateTime,
+        notes: notes,
       };
       await newAppointment(payload);
       onSuccess();
@@ -122,6 +124,18 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
               className="w-full border rounded-md px-3 py-2"
             />
           </div>
+          <div>
+            <label className="block font-semibold mb-1">{t("notes")}</label>
+            <input
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full border rounded-md px-3 py-2"
+            />
+          </div>
+      
+
+
 
           </div>
 

@@ -6,32 +6,23 @@ import { useTranslations } from "next-intl";
 
 type AddPatientFormProps = {
   onClose: () => void;
-  onAdd: (patient: {
-    personal_photo: string | null;
-    full_name: string;
-    date_of_birth: string;
-    gender: string;
-    address: string;
-    phone: string;
-    insurance_info: string;
-    contact_info: string;
-    clinic_id: string;
-  }) => void;
+  onAdd: (patient: FormData) => void;
 };
 
 export default function AddPatientForm({ onClose, onAdd }: AddPatientFormProps) {
-  const t = useTranslations(); // namespace e.g. addPatient.fullName, addPatient.phone
+  const t = useTranslations(); 
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
     insurance_info: "",
     contact_info: "",
     date_of_birth: "",
-    gender: "",
+    gender: "MALE",
     address: "",
     clinic_id: "1b29f62c-1304-448a-a325-98ff2b68c11b",
   });
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | "">("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,6 +34,7 @@ export default function AddPatientForm({ onClose, onAdd }: AddPatientFormProps) 
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onloadend = () => setPhotoPreview(reader.result as string);
+      setPhotoFile(file)
       reader.readAsDataURL(file);
     }
   };
@@ -69,8 +61,13 @@ export default function AddPatientForm({ onClose, onAdd }: AddPatientFormProps) 
       setErrors(validationErrors);
       return;
     }
+    const patientData = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      patientData.append(key, value);
+    });
+    patientData.append("personal_photo",photoFile)
 
-    onAdd({ personal_photo: photoPreview, ...formData });
+    onAdd(patientData);
     onClose();
   };
 

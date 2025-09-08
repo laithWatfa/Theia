@@ -12,6 +12,8 @@ const fetchData = useCallback(async () => {
         setError(null);
         const method = options?.method?.toLowerCase() || "get";
         const res = await (api as any)[method](endpoint, options?.body);
+        console.log(res);
+        console.log(res.data)
         setData(res.data);
     } catch (err: any) {
         setError(err.message);
