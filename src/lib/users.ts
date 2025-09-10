@@ -1,6 +1,4 @@
-import { headers } from "next/headers";
 import api from "./api";
-
 
 export function getUserProfile() {
   return api.get("/api/users/profile/").then((res) => res.data);
@@ -21,17 +19,14 @@ export function getAppointments(){
   return api.get("/api/users/users/appointments/").then((res => res.data))
 }
 
-// {
-//   personal_photo: string | null;
-//   full_name: string;
-//   date_of_birth: string;
-//   gender: string;
-//   address: string;
-//   phone: string;
-//   insurance_info: string;
-//   contact_info: string;
-//   clinic_id: string;
-// }
+export function getTreatments(){
+  return api.get("/api/users/users/treatment-plans/").then((res => res.data))
+}
+
+export function getBills(){
+  return api.get("/api/users/users/bills/").then((res => res.data))
+}
+
 
 export function addNewPatient(data:FormData ) {
   return api.post("/api/users/users/patients/", data).then((res) => res.data);
@@ -55,6 +50,25 @@ export function newAppointment(data: {
   notes:string,
 }) {
   return api.post("/api/users/users/appointments/", data).then((res) => res.data);
+}
+
+export function newTreatment(data: {
+        diagnosis: string,
+        medication:string,
+        instructions:string,
+        dosage:string,
+        surgical_interventions: string,
+      }) {
+  return api.post("/api/users/users/treatment-plans/", data).then((res) => res.data);
+}
+
+
+export function newBill(data: {
+  appointment: string ,
+  amount:string,
+  is_paid:boolean,
+}) {
+  return api.post("/api/users/users/bills/", data).then((res) => res.data);
 }
 
 

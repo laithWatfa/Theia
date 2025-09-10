@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { getPatients, newAppointment } from "@/lib/users";
+import { mockPatients } from "@/mockdata";
 
 type Patient = {
   id: string;
@@ -17,7 +18,7 @@ type Props = {
 
 export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
   const t = useTranslations();
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = useState<Patient[]>(mockPatients);
   const [query, setQuery] = useState("");
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [appointmentDateTime, setAppointmentDateTime] = useState("");
@@ -36,7 +37,7 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
         setError("Could not load patients");
       }
     };
-    fetchPatients();
+    // fetchPatients();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,7 +52,7 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
     try {
       const payload = {
         patient: selectedPatient.id,
-        appointment_datetime: appointmentDateTime,
+        appointment_datetime: new Date(appointmentDateTime).toISOString() ,
         notes: notes,
       };
       await newAppointment(payload);
@@ -71,7 +72,7 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-3xl mx-4 p-6 relative">
-        <h2 className="text-lg font-bold mb-4 border-b-2 border-primary-800">
+        <h2 className="w-fit text-lg font-bold mb-4 border-b-2 border-primary-800">
           {t("newAppointment")}
         </h2>
 

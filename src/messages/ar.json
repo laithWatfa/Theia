@@ -75,6 +75,21 @@
     "newAppointment":"إضافة موعد",
     "appointmentDateTime":"الموعد",
 
+  
+  "newTreatment": "وصفة جديد",
+  "medication": "الدواء",
+  "dosage": "الجرعة",
+  "instructions": "التعليمات",
+  "surgicalInterventions": "التدخلات الجراحية",
+  "saving": "جارٍ الحفظ",
+  "addTreatment": "إضافة وصفة",
+  "viewTreatment": "عرض الوصفة",
+  "treatmentFor":"وصفة للمريض",
+  "createdAt":"تم إنشاءها",
+  "noResults": "لا يوجد نتائج",
+  "paid":"مدفوع",
+  "unpaid":"غير مدفوع",
+  "addBill":"إضافة فاتورة",
 
 "placeholders": {
     "username": "أدخل اسم المستخدم",

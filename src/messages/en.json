@@ -63,6 +63,22 @@
     "uploadImage":"Choose an Image",
     "notes":"Notes",
 
+    "newTreatment": "New Treatment",
+  "medication": "Medication",
+  "dosage": "Dosage",
+  "instructions": "Instructions",
+  "surgicalInterventions": "Surgical Interventions",
+  "saving": "Saving",
+  "addTreatment":"Add Treatment",
+  "viewTreatment":"View Treatment",
+  "treatmentFor":"Treatment for",
+  "createdAt":"Created At",
+  "noResults": "No Results Found",
+
+  "paid":"paid",
+  "unpaid":"unpaid",
+  "addBill":"Add Bill",
+
 
 
 

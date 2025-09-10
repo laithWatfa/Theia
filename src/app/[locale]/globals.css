@@ -12,7 +12,7 @@
 @theme inline {
   --color-light: rgb(150 224 114);
   --color-xLight: rgb(232 252 207);
-  --color-dark: rgb(62 137 20);
+  --color-green: rgb(62 137 20);
   --color-mid: rgb(61 163 93);
 
   /* --color-primary-900: rgb(19 70 17);
@@ -99,4 +99,15 @@ cursor: pointer;
 
 button {
   cursor: pointer;
+}
+
+input , select, textarea {
+  border-color: var(--color-primary-600);
+}
+input:focus ,select:focus, textarea:focus {
+  outline: 2px solid var(--color-primary-400);
+}
+
+strong {
+  color: var(--color-text-600) !important;
 }

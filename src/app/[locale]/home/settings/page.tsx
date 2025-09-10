@@ -32,7 +32,7 @@ export default function SettingsPage() {
   const currentLocale = segments[1] || "en";
   const [selected, setSelected] = useState(currentLocale);
 
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(staticProfile);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslations();
@@ -50,7 +50,8 @@ export default function SettingsPage() {
       }
     };
 
-    fetchProfile();
+    // fetchProfile();
+    setLoading(false)
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,9 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
+  const t = useTranslations()
 
   return (
     <section className="relative h-screen bg-text-100  justify-center overflow-hidden">
@@ -14,14 +16,14 @@ export default function Hero() {
         </Link>
         <nav className="flex gap-2 items-center text-[10px] sm:text-[12px]">
           <Link href="/login" className="text-primary-400">
-            Log In          
+            {t("login")}        
             </Link>
 
           <Link
             href="/signup"
             className="btn"
           >
-          Sign Up
+          {t("signup")} 
           </Link>
         </nav>
         
@@ -30,7 +32,7 @@ export default function Hero() {
         {/* Left Text Content */}
         <div className="max-w-xl text-center lg:text-start">
           <h1 className="text-2xl md:text-4xl md:text-5xl font-bold text-text-900 leading-tight">
-            <span className="text-primary-400">Theia</span> where we transform Eye Care with <br />
+            <span className="text-primary-400">{t("theia")} </span> where we transform Eye Care with <br />
             Data-Driven Precision.
           </h1>
           <p className="mt-6 text-md md:text-lg text-text-900/80">

@@ -1,111 +1,48 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Search } from "lucide-react";
-import { getAppointments, getPatients } from "@/lib/users";
+import { getAppointments, getPatients, getBills, newBill } from "@/lib/users";
 import NewAppointmentForm from "@/components/NewAppointmentForm";
+import NewBillForm from "@/components/NewBillForm";
+import { usePathname } from "next/navigation";
+import { FaMoneyBills } from "react-icons/fa6";
+import { Bill,Appointment } from "@/types/users";
+import { mockBills,mockAppointments } from "@/mockdata";
 
 
-// Types
-type Clinic = {
-  id: string;
-  name: string;
-  location: string;
-  created_at: string;
-};
-
-type Patient = {
-  id: string;
-  full_name: string;
-  age: number;
-  gender: string;
-  personal_photo: string | null;
-  clinic: Clinic;
-};
-
-type Appointment = {
-  id: string;
-  patient: string;
-  status: "SCHEDULED" | "COMPLETED"  | "CANCELED"
-  appointment_datetime: string;
-  doctor: number;
-  doctor_name:string;
-  patient_name:string;
-  notes:string;
-};
-
-
-const mockPatients: Patient[] = [
-  {
-    id: "1",
-    full_name: "Majd Hindi",
-    age: 22,
-    gender: "Male",
-    personal_photo: null,
-    clinic: { id: "1", name: "Clinic A", location: "City", created_at: "2023" },
-  },
-  {
-    id: "2",
-    full_name: "May Dalloul",
-    age: 21,
-    gender: "Female",
-    personal_photo: null,
-    clinic: { id: "2", name: "Clinic B", location: "Town", created_at: "2023" },
-  },
-];
-
-// const mockAppointments: Appointment[] = [
-//   { appointment_id: 201, patient: 1, appointment_datetime: "2025-09-06 10:30", doctor: 8 },
-//   { appointment_id: 202, patient: 2, appointment_datetime: "2025-09-06 12:00", doctor: 8 },
-// ];
-
-// --------------------
-// Component
-// --------------------
 export default function AppointmentsPage() {
+  const pathname = usePathname();
   const t = useTranslations();
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [patients, setPatients] = useState<Patient[]>(mockPatients);
+  const [appointments, setAppointments] = useState<Appointment[]>(mockAppointments);
+  const [bills, setBills] = useState<Bill[]>(mockBills);
   const [loading, setLoading] = useState(true);
+  const [billFormFor, setBillFormFor] = useState<string | null>(null);
 
-  // Fetch from API
+  // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [appointmentsData, patientsData] = await Promise.all([
+        const [appointmentsData, billsData] = await Promise.all([
           getAppointments(),
-          getPatients(),
+          getBills(),
         ]);
         setAppointments(appointmentsData);
-        setPatients(patientsData);
+        setBills(billsData);
       } catch (err) {
-        console.error("Error fetching appointments or patients", err);
+        console.error("Error fetching appointments/bills", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
+    // fetchData();
+    setLoading(false);
   }, []);
 
-  // Map patient_id → patient data
-  const appointmentsWithPatient = useMemo(() => {
-    return appointments.map((a) => {
-      const patient = patients.find((p) => String(p.id) === String(a.patient));
-      return {
-        ...a,
-        patient_name: patient ? patient.full_name : `ID: ${a.patient}`,
-        patient_age: patient?.age,
-        patient_gender: patient?.gender,
-        patient_photo: patient?.personal_photo || null,
-      };
-    });
-  }, [appointments, patients]);
-
-  // Filter by patient name
-  const filteredAppointments = appointmentsWithPatient.filter((a) =>
+  const filteredAppointments = appointments.filter((a) =>
     a.patient_name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -113,7 +50,7 @@ export default function AppointmentsPage() {
     <div className="p-4 max-w-full">
       {/* Search + Add Button */}
       <div className="flex justify-between items-start gap-2 mb-4">
-        <div className="relative mb-6 max-w-md">
+        <div className="relative mb-6 max-w-md shadow-md">
           <Search
             className="absolute left-3 rtl:right-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={18}
@@ -126,7 +63,7 @@ export default function AppointmentsPage() {
             className="text-sm w-full pl-10 pr-3 rtl:pl-3 rtl:pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-400"
           />
         </div>
-        <button onClick={() => setShowForm(true)} className="btn">
+        <button onClick={() => setShowForm(true)} className="btn shadow-md">
           + {t("newAppointment")}
         </button>
       </div>
@@ -135,59 +72,71 @@ export default function AppointmentsPage() {
       {loading ? (
         <p>{t("loading")}...</p>
       ) : filteredAppointments.length === 0 ? (
-        <p className="text-gray-500">{t("noResults")}</p>
+        <p className="text-text-600">{t("noResults")}</p>
       ) : (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredAppointments.map((a) => 
-            {
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+          {filteredAppointments.map((a) => {
             const date = new Date(a.appointment_datetime);
-            // Day of the week (e.g., Sunday)
-            const weekday = date.toLocaleString('en-US', { weekday: 'short' });
-
-// Day of the month (e.g., 7)
+            const weekday = date.toLocaleString(pathname.split("/")[1], {
+              weekday: "short",
+            });
             const dayOfMonth = date.getDate();
+            const time12hr = date.toLocaleString(pathname.split("/")[1], {
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+            });
 
-// Year (e.g., 2025)
-            const year = date.getFullYear();
+            // Find bill for this appointment
+            const bill = bills.find((b) => b.appointment === a.id);
 
-// Time of day in 12-hour format (e.g., 2:16 AM)
-const time12hr = date.toLocaleString('en-US', {
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true
-});
-
-
-            return <li
-              key={a.appointment_datetime}
-              className="flex gap-2 border rounded px-4 py-2 shadow-sm bg-white"
-            >
-              {/*Day*/}
-              
-                <div className="flex flex-col justify-center items-center 
-                ltr:pr-2 ltr:border-r-2 rtl:pl-2 rtl:border-l-2 border-primary-400
-                text-primary-400">
+            return (
+              <li
+                key={a.id}
+                className="relative flex flex-col gap-2 transition hover:translate-y-[-2px] rounded-md px-4 py-2 shadow-sm hover:shadow-md bg-white"
+              >
+                {/* Day */}
+                <div className="flex gap-2 items-center">
+                  <div className="h-full w-14 flex flex-col justify-center items-center ltr:pr-4  ltr:border-r-2 rtl:pl-4 rtl:border-l-2 border-primary-400 text-primary-400">
                     <span className="font-bold">{weekday.toUpperCase()}</span>
                     <span className="font-bold">{dayOfMonth}</span>
-                </div>
-                
-             
+                  </div>
 
-              {/* Name and time */}
-              <div>
-                <div>
-                  <h3 className="font-bold text-text-700">{a.patient_name}</h3>
+                  {/* Patient + Time */}
+                  <div>
+                    <h3 className="font-bold text-text-700">{a.patient_name}</h3>
+                    <span className="text-sm text-text-700">{" "}{time12hr}</span>
+                    <p className="text-xs">
+                      <span className="text-sm font-bold text-text-700">
+                        {t("notes")}:
+                      </span>{" "}
+                      {a.notes}
+                    </p>
+                  </div>
                 </div>
-                <p>
-                  <span className="text-sm text-text-700">{a.status}{"  "}{time12hr}</span>
-                </p>
-              </div>
-            </li>;
-})}
+
+                {/* Bill section */}
+                <div className="mt-2 absolute rtl:left-0 ltr:right-0 text-sm md:text-xs">
+                  {bill ? (
+                    <p className={"flex items-center gap-1 text-text-100  p-1 rounded-l-md rtl:rounded-r-md "+ (bill.is_paid ? "bg-mid" : "bg-gold-900") }>
+                      <FaMoneyBills/>{bill.amount}
+                    </p>
+                  ) : (
+                    <button
+                      onClick={() => setBillFormFor(a.id)}
+                      className="bg-primary-400 text-text-100  p-1 rounded-l-md rtl:rounded-r-md"
+                    >
+                      + {t("addBill")}
+                    </button>
+                  )}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
 
-      {/* Overlay Form */}
+      {/* Appointment Form */}
       {showForm && (
         <NewAppointmentForm
           onClose={() => setShowForm(false)}
@@ -195,6 +144,19 @@ const time12hr = date.toLocaleString('en-US', {
             setShowForm(false);
             const appointmentsData = await getAppointments();
             setAppointments(appointmentsData);
+          }}
+        />
+      )}
+
+      {/* Bill Form */}
+      {billFormFor && (
+        <NewBillForm
+          appointmentId={billFormFor}
+          onClose={() => setBillFormFor(null)}
+          onSuccess={async () => {
+            setBillFormFor(null);
+            const billsData = await getBills();
+            setBills(billsData);
           }}
         />
       )}

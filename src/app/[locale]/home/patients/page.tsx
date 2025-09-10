@@ -9,61 +9,9 @@ import { useApi } from "@/hooks/useApi";
 import { addNewPatient, getPatients } from "@/lib/users";
 import { useTranslations } from "next-intl";
 import { error } from "console";
+import { Patient } from "@/types/users";
+import { mockPatients } from "@/mockdata";
 
-const FakePatients: Patient[] = [ 
-    { id: "1", personal_photo: null,
-    full_name: "Magd Hndi",
-    date_of_birth: "2002-11-16", 
-    gender: "MALE", age: 22, 
-    clinic: { id: "c1",
-            name: "Majd Clinic", 
-            location: "Homs, Alarman", 
-            created_at: "2025-07-17T15:43:07.545455Z",
-            }, 
-    address: "Damascus, Syria", 
-    phone: "095-123-4567", 
-    insurance_info: "", 
-    contact_info: "magd@example.com", 
-    doctors: [5], 
-    },
-    { id: "2", 
-    personal_photo: null, 
-    full_name: "May Dalloul", 
-    date_of_birth: "2003-11-26", 
-    gender: "FEMALE", 
-    age: 21, 
-    clinic: { id: "c1", 
-            name: "Majd Clinic", 
-            location: "Homs, Alarman", 
-            created_at: "2025-07-17T15:43:07.545455Z", 
-            }, address: "Homs, Syria", 
-            phone: "093-222-4444", 
-            insurance_info: "", 
-            contact_info: "may@example.com", 
-            doctors: [5], 
-    }, ];
-
-type Clinic = {
-  id: string;
-  name: string;
-  location: string;
-  created_at: string;
-};
-
-type Patient = {
-  id: string;
-  personal_photo: string | null;
-  full_name: string;
-  date_of_birth: string;
-  gender: string;
-  age: number;
-  clinic: Clinic;
-  address: string;
-  phone: string;
-  insurance_info: string;
-  contact_info: string;
-  doctors: number[];
-};
 
 export default function PatientsPage() {
   const [search, setSearch] = useState("");
@@ -72,7 +20,7 @@ export default function PatientsPage() {
   const t = useTranslations();
 
   // const { data, loading, error, refetch } = useApi<[]>("/api/users/users/patients/");
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = useState<Patient[]>(mockPatients);
 
   useEffect(() => {
 
@@ -84,12 +32,12 @@ export default function PatientsPage() {
         console.log(err)
       }
     }
-    loadPatients();
+    // loadPatients();
   }, [reload]);
 
-  //  useEffect(() => {
-  //   setPatients(FakePatients);
-  // }, []);
+   useEffect(() => {
+    setPatients(mockPatients);
+  }, []);
 
   const filteredPatients = useMemo(() => {
     return patients.filter((p) =>
@@ -113,7 +61,7 @@ export default function PatientsPage() {
     <div>
       {/* Search + Add Button */}
       <div className="flex justify-between gap-2 mb-6 px-6">
-        <div className="relative mb-6 max-w-md">
+        <div className="relative mb-6 max-w-md shadow-md">
           <Search className="absolute left-3 rtl:right-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input
             type="text"
@@ -123,7 +71,7 @@ export default function PatientsPage() {
             className="text-sm w-full pl-10 pr-3 rtl:pl-3 rtl:pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-400"
           />
         </div>
-        <button onClick={() => setIsFormOpen(true)} className="text-sm btn shadow transition">
+        <button onClick={() => setIsFormOpen(true)} className="text-sm btn shadow-md transition">
           + {t("addPatient")}
         </button>
       </div>

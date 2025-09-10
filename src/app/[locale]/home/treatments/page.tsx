@@ -3,80 +3,25 @@
 import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Search } from "lucide-react";
+import { MdToday as Appointments } from "react-icons/md";
+import { FaUserInjured as Patient } from "react-icons/fa";
+import IconCare from "@/components/IconCare";
+import IconSurgery from "@/components/IconSurgery";
+import { FaPrescriptionBottleMedical as Medication , FaSyringe as Dosage ,  } from "react-icons/fa6";
 import { getTreatments } from "@/lib/users"; 
-
-// --------------------
-// Types
-// --------------------
-type Treatment = {
-  id: string;
-  diagnosis: string;
-  doctor: number;
-  medication: string;
-  instructions: string;
-  created_at: string;
-  patient_name: string;
-};
-
-const mockTreatments: Treatment[] = [
-  {
-    id: "1",
-    diagnosis: "Flu",
-    doctor: 5,
-    medication: "Paracetamol",
-    instructions: "Take 1 tablet every 8 hours after meals",
-    created_at: "2025-09-06T10:30:00Z",
-    patient_name: "Majd Hindi",
-  },
-  {
-    id: "2",
-    diagnosis: "Back Pain",
-    doctor: 8,
-    medication: "Ibuprofen",
-    instructions: "Take with water, avoid lifting heavy objects",
-    created_at: "2025-09-07T15:45:00Z",
-    patient_name: "May Dalloul",
-  },
-  {
-    id: "3",
-    diagnosis: "Migraine",
-    doctor: 3,
-    medication: "Sumatriptan",
-    instructions: "Take as soon as symptoms appear. Rest in a dark room.",
-    created_at: "2025-09-08T09:15:00Z",
-    patient_name: "Omar Khaled",
-  },
-  {
-    id: "4",
-    diagnosis: "Sprained Ankle",
-    doctor: 4,
-    medication: "Ice + Elevation",
-    instructions: "Apply ice 15 minutes every 2 hours, keep foot elevated.",
-    created_at: "2025-09-08T13:25:00Z",
-    patient_name: "Sarah Mahmoud",
-  },
-  {
-    id: "5",
-    diagnosis: "Hypertension",
-    doctor: 7,
-    medication: "Amlodipine",
-    instructions: "Take daily in the morning, monitor blood pressure regularly.",
-    created_at: "2025-09-08T18:10:00Z",
-    patient_name: "Hadi Nasser",
-  },
-];
+import { usePathname } from "next/navigation";
+import { Treatment } from "@/types/users";
+import { mockTreatments } from "@/mockdata";
 
 
-// --------------------
-// Component
-// --------------------
+
 export default function TreatmentsPage() {
+  const pathname = usePathname()
   const t = useTranslations();
   const [search, setSearch] = useState("");
   const [treatments, setTreatments] = useState<Treatment[]>(mockTreatments);
   const [loading, setLoading] = useState(true);
 
-  // Fetch from API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,7 +33,8 @@ export default function TreatmentsPage() {
         setLoading(false);
       }
     };
-    fetchData();
+    // fetchData();
+    setLoading(false);
   }, []);
 
   // Filter by patient name
@@ -102,7 +48,7 @@ export default function TreatmentsPage() {
     <div className="p-4 max-w-full">
       {/* Search */}
       <div className="flex justify-between items-start gap-2 mb-4">
-        <div className="relative mb-6 max-w-md">
+        <div className="relative mb-6 max-w-md shadow-md">
           <Search
             className="absolute left-3 rtl:right-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={18}
@@ -126,9 +72,9 @@ export default function TreatmentsPage() {
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredTreatments.map((treat) => {
             const date = new Date(treat.created_at);
-            const formattedDate = date.toLocaleString("en-US", {
+            const formattedDate = date.toLocaleString(pathname.split("/")[1], {
               year: "numeric",
-              month: "short",
+              month: "numeric",
               day: "numeric",
               hour: "numeric",
               minute: "numeric",
@@ -138,15 +84,27 @@ export default function TreatmentsPage() {
             return (
               <li
                 key={treat.id}
-                className="flex flex-col gap-2 border rounded px-4 py-2 shadow-sm bg-white"
+                className="text-sm relative flex flex-col bg-text-600 rounded-md px-4 py-2 shadow transition hover:translate-y-[-2px] hover:shadow-lg bg-white"
               >
-                <h3 className="font-bold text-text-700">{treat.patient_name}</h3>
-                <p className="text-sm text-gray-500">{formattedDate}</p>
-                <p className="text-sm">
-                  <strong>Medication:</strong> {treat.medication}
+                <p className="absolute top-1 right-2 rtl:left-2 rtl:right-auto flex items-center gap-1 rtl:flex-row-reverse text-[12px] text-primary-800">
+                  <Appointments/>{formattedDate}
+                  </p>
+                <h3 className="text-primary-800 flex items-center gap-1 font-bold text-md">
+                  <Patient className="" />{treat.patient_name}
+                </h3>
+                
+                <p className="flex gap-1 items-center border-b border-text-500 py-[2px]">
+                  <Medication className="text-primary-400"/><strong>{t("medication")}:</strong> {treat.medication}
                 </p>
-                <p className="text-sm">
-                  <strong>Instructions:</strong> {treat.instructions}
+                <p className="flex gap-1 items-center border-b border-text-500 py-[2px]">
+                  <Dosage className="text-primary-400"/><strong>{t("dosage")}:</strong> {treat.dosage}
+                </p>
+                <p className="flex gap-1 items-center border-b border-text-500 py-[2px]">
+                  <IconCare className="text-primary-400"/><strong>{t("instructions")}:</strong> {treat.instructions}
+                </p>
+                
+                <p className="flex gap-1 items-center py-[2px]">
+                  <IconSurgery className="text-primary-400"/><strong>{t("surgicalInterventions")}:</strong>{" "}{treat.surgical_interventions}
                 </p>
               </li>
             );
