@@ -32,12 +32,10 @@ export default function Hero() {
         {/* Left Text Content */}
         <div className="max-w-xl text-center lg:text-start">
           <h1 className="text-2xl md:text-4xl md:text-5xl font-bold text-text-900 leading-tight">
-            <span className="text-primary-400">{t("theia")} </span> where we transform Eye Care with <br />
-            Data-Driven Precision.
+            <span className="text-primary-400">{t("theia")} </span> {t("heroH1")} <br />
+            {t("heroH2")} 
           </h1>
-          <p className="mt-6 text-md md:text-lg text-text-900/80">
-            Using AI and advanced databases, we simplify eye care for doctors, enhancing diagnostics and streamlining clinic management.
-          </p>
+          <p className="mt-6 text-md md:text-lg text-text-900/80">{t("heroP")}</p>
           <div className="hidden lg:block justify-self-end mt-4 mr-6 w-24 h-24 rounded-full border-4 border-primary-400 overflow-hidden">
             <Image src="/images/doctor5.png" alt="Optometrist with patient" width={200} height={200} className="w-full h-full object-cover" />
           </div>

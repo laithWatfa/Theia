@@ -50,8 +50,7 @@ export default function SettingsPage() {
       }
     };
 
-    // fetchProfile();
-    setLoading(false)
+    fetchProfile();
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

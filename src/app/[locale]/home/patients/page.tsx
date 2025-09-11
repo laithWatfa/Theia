@@ -32,7 +32,7 @@ export default function PatientsPage() {
         console.log(err)
       }
     }
-    // loadPatients();
+    loadPatients();
   }, [reload]);
 
    useEffect(() => {

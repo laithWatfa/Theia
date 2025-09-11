@@ -2,10 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { newTreatment } from "@/lib/users"; // you'll need to create this helper
+import { newTreatment } from "@/lib/users"; 
 
 type Props = {
-  diagnosisId: string; // pass in from the selected diagnosis
+  diagnosisId: string; 
   onClose: () => void;
   onSuccess: () => void;
 };
@@ -43,7 +43,7 @@ export default function NewTreatmentForm({
         surgical_interventions: surgicalInterventions,
       };
 
-      await newTreatment(payload); // POST to API
+      await newTreatment(payload); 
       onSuccess();
     } catch (err: any) {
       console.error(err);

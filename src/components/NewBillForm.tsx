@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-// import { newBill } from "@/lib/users"; // <-- hook up your API helper
+import { newBill } from "@/lib/users";
 
 type Props = {
   appointmentId: string;
@@ -34,7 +34,7 @@ export default function NewBillForm({ appointmentId, onClose, onSuccess }: Props
       };
 
       console.log("Submitting Bill:", payload);
-      // await newBill(payload);
+      await newBill(payload);
       onSuccess();
     } catch (err: any) {
       setError(err.message || "Something went wrong");

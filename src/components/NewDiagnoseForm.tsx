@@ -34,7 +34,7 @@ const t = useTranslations();
         setError("Could not load patients");
       }
     };
-    // fetchPatients();
+    fetchPatients();
   }, []);
 
   const handleFileChange = (

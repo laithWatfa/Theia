@@ -90,6 +90,8 @@
   "paid":"مدفوع",
   "unpaid":"غير مدفوع",
   "addBill":"إضافة فاتورة",
+  "amount":"الكمية",
+  "status":"الحالة",
 
 "placeholders": {
     "username": "أدخل اسم المستخدم",

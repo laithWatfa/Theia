@@ -33,8 +33,7 @@ export default function TreatmentsPage() {
         setLoading(false);
       }
     };
-    // fetchData();
-    setLoading(false);
+    fetchData();
   }, []);
 
   // Filter by patient name

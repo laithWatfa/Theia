@@ -26,7 +26,6 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch patients list
   useEffect(() => {
     const fetchPatients = async () => {
       try {
@@ -37,7 +36,7 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
         setError("Could not load patients");
       }
     };
-    // fetchPatients();
+    fetchPatients();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

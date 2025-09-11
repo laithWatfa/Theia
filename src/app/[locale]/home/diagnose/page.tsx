@@ -29,7 +29,6 @@ export default function DiagnosePage() {
     null
   );
 
-  // Fetch from API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,7 +46,7 @@ export default function DiagnosePage() {
         setLoading(false);
       }
     };
-    // fetchData();
+    fetchData();
     setLoading(false)
   }, []);
 
@@ -177,7 +176,7 @@ export default function DiagnosePage() {
                   <div className="flex justify-center lg:w-2/3 rtl:flex-row-reverse gap-6 mb-3">
                     <div className="text-center">
                       <Image
-                        src={placeholderImg}
+                        src={d.left_fundus_image||placeholderImg}
                         alt="Left Fundus"
                         width={96}
                         height={96}
@@ -193,7 +192,7 @@ export default function DiagnosePage() {
                     </div>
                     <div className="text-center">
                       <Image
-                        src={placeholderImg}
+                        src={d.left_fundus_image||placeholderImg}
                         alt="Right Fundus"
                         width={96}
                         height={96}
@@ -214,8 +213,8 @@ export default function DiagnosePage() {
                     <button
                       onClick={() =>{
                                     setSelectedTreatment(
-                                      mockTreatments.find((t) =>t.diagnosis === d.id) || null
-                                      // treatments.find((t) =>t.diagnosis === d.id) || null
+                                      // mockTreatments.find((t) =>t.diagnosis === d.id) || null
+                                      treatments.find((t) =>t.diagnosis === d.id) || null
                                     );
                                     
                       }
