@@ -58,6 +58,8 @@
   "addDiagnose":"تشخيص جديد",
     "leftEye":"العين اليسار",
     "rightEye":"العين اليمين",
+    "leftEyeResult":"نتيجة العين اليسار",
+    "rightEyeResult":"نتيجة العين اليمين",
     "notes":"الملاحظات",
     "choosePatient":"اختر المريض",
     "choosePatientPlaceHolder":"ادخل اسم المريض",
@@ -92,7 +94,28 @@
   "addBill":"إضافة فاتورة",
   "amount":"الكمية",
   "status":"الحالة",
+  "newBill":"فاتورة جديدة",
 
+  "Normal": "طبيعي",
+  "Cataract": "إعتام عدسة العين",
+  "Diabetes": "السكري",
+  "Glaucoma": "الجلوكوما",
+  "Hypertension": "ارتفاع ضغط الدم",
+  "Pathological Myopia": "قصر النظر المرضي",
+  "Age Issues": "مشاكل مرتبطة بالعمر",
+  "Other Disorders": "اضطرابات أخرى",
+
+  
+
+"record": {
+    "patient": "المريض",
+    "appointment": "الموعد",
+    "diagnosis": "التشخيص",
+    "treatment_plan": "خطة العلاج",
+    "bill": "الفاتورة"
+  },
+  "confirm_delete": "هل أنت متأكد أنك تريد حذف هذا {type}؟",
+  "delete":"نعم, حذف",
 "placeholders": {
     "username": "أدخل اسم المستخدم",
     "email": "example@gmail.com",

@@ -221,7 +221,7 @@ export default function AddPatientForm({ onClose, onAdd }: AddPatientFormProps) 
 
           {/* Buttons */}
           <div className="md:col-span-2 flex justify-between mt-4">
-            <button type="button" onClick={onClose} className="btn !bg-red-800 !hover:bg-red-900">
+            <button type="button" onClick={onClose} className="btn !bg-red-800 hover:!bg-red-900">
               {t("cancel")}
             </button>
             <button type="submit" className="btn">

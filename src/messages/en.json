@@ -58,6 +58,8 @@
     "addDiagnose":"New Diagnose",
     "leftEye":"Left Fundus",
     "rightEye":"Right Fundus",
+    "leftEyeResult":"Left Fundus Result",
+    "rightEyeResult":"Right Fundus Result",
     "choosePatient":"Choose Patient",
     "choosePatientPlaceHolder":"Enter Patient Name",
     "uploadImage":"Choose an Image",
@@ -80,8 +82,27 @@
   "addBill":"Add Bill",
   "amount":"Amount",
   "status":"Status",
+  "newBill":"New Bill",
 
+  "Normal": "Normal",
+  "Cataract": "Cataract",
+  "Diabetes": "Diabetes",
+  "Glaucoma": "Glaucoma",
+  "Hypertension": "Hypertension",
+  "Pathological Myopia": "Pathological Myopia",
+  "Age Issues": "Age Issues",
+  "Other Disorders": "Other Disorders",
 
+  
+  "record": {
+    "patient": "Patient",
+    "appointment": "Appointment",
+    "diagnosis": "Diagnosis",
+    "treatment_plan": "Treatment Plan",
+    "bill": "Bill"
+  },
+  "confirm_delete": "Are you sure you want to delete this {type}?",
+  "delete":"Yes, Delete",
 
 
     "chooseLanguage": "Choose your language",

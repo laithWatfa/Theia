@@ -4,6 +4,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { getUserProfile } from "@/lib/users";
+import Spinner from "@/components/Spinner";
 
 type Profile = {
   id: number;
@@ -68,7 +69,7 @@ export default function SettingsPage() {
     <div className="mx-auto px-6">
       {/* Profile Section */}
       {loading ? (
-        <p className="text-text-700">{t("loading")}...</p>
+        <Spinner/>
       ) : error ? (
         <p className="text-red-800">{error}</p>
       ) : profile ? (

@@ -3,41 +3,41 @@ import { useState, useMemo, useEffect, use } from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { FaPhone } from "react-icons/fa6";
-import AddPatientForm from "@/components/AddPatientForm";
 import { MdEmail } from "react-icons/md";
-import { useApi } from "@/hooks/useApi";
-import { addNewPatient, getPatients } from "@/lib/users";
+import { TbTrashXFilled } from "react-icons/tb";import { useApi } from "@/hooks/useApi";
+import AddPatientForm from "@/components/AddPatientForm";
+import DeleteConfirmPopUP from "@/components/DeletetConfirmPopUp";
+import { addNewPatient, deletePatient, getPatients } from "@/lib/users";
 import { useTranslations } from "next-intl";
-import { error } from "console";
 import { Patient } from "@/types/users";
 import { mockPatients } from "@/mockdata";
-
+import Spinner from "@/components/Spinner";
 
 export default function PatientsPage() {
   const [search, setSearch] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedId,setSelectedId] = useState('');
+  const [showPopUp, setShowPopUp] = useState(false);
   const [reload,setReload] = useState(true);
   const t = useTranslations();
-
-  // const { data, loading, error, refetch } = useApi<[]>("/api/users/users/patients/");
-  const [patients, setPatients] = useState<Patient[]>(mockPatients);
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [loading,setLoading] =  useState(true);
 
   useEffect(() => {
-
-    async function loadPatients() {
-      try {
-        const p = await getPatients();
-        setPatients(p);
-      }catch(err){
-        console.log(err)
-      }
-    }
-    loadPatients();
+    const fetchData = async () => {
+          try {
+            const patientsData = await getPatients();
+            setPatients(patientsData);
+          } catch (err) {
+            console.error("Error fetching patients", err);
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchData();
   }, [reload]);
 
-   useEffect(() => {
-    setPatients(mockPatients);
-  }, []);
+
 
   const filteredPatients = useMemo(() => {
     return patients.filter((p) =>
@@ -48,14 +48,24 @@ export default function PatientsPage() {
   const handleAddPatient = async (patient:FormData) => {
     try {
       const newPatient: Patient = await addNewPatient(patient);
-      setReload(false)
+      setReload(!reload)
     } catch (err) {
       console.error("Failed to add patient:", err);
     }
   };
 
-//   if (loading) return <p className="p-6">Loading patients...</p>;
-//   if (error) return <p className="p-6 text-red-600">Error: {error}</p>;
+  const handleDeletePatient = (id:string) => {
+    deletePatient(id).then(() => {
+    setPatients((prev) => prev.filter((item) => item.id !== id));
+  })
+  .catch(() => {
+    setReload(!reload);
+  });
+  };
+
+
+  if (loading) return <Spinner/>;
+  // if (error) return <p className="p-6 text-red-600">Error: {error}</p>;
 
   return (
     <div>
@@ -92,7 +102,7 @@ export default function PatientsPage() {
           </thead>
           <tbody>
             {filteredPatients.map((patient) => (
-              <tr key={patient.id} className="border-t border-text-300 hover:bg-gray-50 transition text-[8px] md:text-xs">
+              <tr key={patient.id} className="relative border-t border-text-300 hover:bg-gray-50 transition text-[8px] md:text-xs">
                 <td className="p-3 flex items-center gap-3">
                   <Image
                     src={
@@ -122,6 +132,11 @@ export default function PatientsPage() {
                 <td className="p-3">{patient.gender}</td>
                 <td className="p-3">{patient.address || "—"}</td>
                 <td className="p-3">{patient.insurance_info || "—"}</td>
+                <button onClick={()=>{setShowPopUp(true);setSelectedId(patient.id)}} 
+                className="absolute right-2 rtl:left-2 rtl:right-auto bottom-1/2 translate-y-1/2 bg-red-900 hover:bg-red-800 p-1 text-text-100 rounded-md transition">
+                  <TbTrashXFilled/>
+                  </button>
+
               </tr>
             ))}
           </tbody>
@@ -131,6 +146,19 @@ export default function PatientsPage() {
       {/* Overlay Form */}
       {isFormOpen && (
         <AddPatientForm onClose={() => setIsFormOpen(false)} onAdd={handleAddPatient} />
+      )}
+
+      {showPopUp && (
+        <DeleteConfirmPopUP 
+        onClose={() =>{setShowPopUp(false);setSelectedId("")}} 
+        onDelete={() => handleDeletePatient(selectedId) }
+        onSuccess={async () => {
+                    setShowPopUp(false);
+                    setSelectedId("")
+                    const patientData = await getPatients();
+                    setPatients(patientData);
+                  }}
+        recordType="patient" />
       )}
     </div>
   );

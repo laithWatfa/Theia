@@ -8,15 +8,16 @@ import { FaUser as Patient } from "react-icons/fa";
 import { FaMoneyBillWave as BillIcon } from "react-icons/fa";
 import { FaCheckCircle as PaidIcon, FaTimesCircle as UnpaidIcon } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { getBills } from "@/lib/users"; 
+import { getBills, updateBillStatus } from "@/lib/users"; 
 import { mockBills } from "@/mockdata";
 import { Bill } from "@/types/users";
+import Spinner from "@/components/Spinner";
 
 export default function BillsPage() {
   const pathname = usePathname();
   const t = useTranslations();
   const [search, setSearch] = useState("");
-  const [bills, setBills] = useState<Bill[]>(mockBills);
+  const [bills, setBills] = useState<Bill[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function BillsPage() {
 
       {/* Bills List */}
       {loading ? (
-        <p>{t("loading")}...</p>
+        <Spinner/>
       ) : filteredBills.length === 0 ? (
         <p className="text-gray-500">{t("noResults")}</p>
       ) : (
@@ -91,7 +92,19 @@ export default function BillsPage() {
                   {bill.amount}
                 </p>
 
-                <p className={" text-sm flex gap-1 items-center  px-4 rounded-full "+(bill.is_paid ? "bg-light text-green ":"bg-red-700 text-red-900")}>
+                <p 
+                className={" text-xs flex items-center py-[1px]  px-4 rounded-full  "
+                +(bill.is_paid ? "bg-light text-green pointer-events-none":"bg-red-700 text-red-900 hover:bg-red-900 hover:text-red-700 duration-300 cursor-pointer")}
+                onClick={async() => {
+                  try {
+                    await updateBillStatus({...bill,is_paid:true});
+                    const billsData = await getBills();
+                    setBills(billsData);
+                  }catch {
+
+                  }
+                }}
+                >
                   
                   {bill.is_paid ? t("paid") : t("unpaid")}
 

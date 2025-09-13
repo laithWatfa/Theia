@@ -12,9 +12,10 @@ import { RiSettings3Fill as Settings } from "react-icons/ri";
 import { FaUserInjured as Patients } from "react-icons/fa";
 import { clearAccessToken } from "@/lib/api";
 import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
 
 const sidebarLinks = [
-{ path: "patients", label: "patients", icon: Patients },
+  { path: "patients", label: "patients", icon: Patients },
   { path: "treatments", label: "treatments", icon: Treatments },
   { path: "appointments", label: "appointments", icon: Appointments },
   { path: "diagnose", label: "diagnose", icon: Diagnose },
@@ -28,9 +29,28 @@ export default function Sidebar() {
   const t = useTranslations();
 
   const locale = pathname.split("/")[1] || "en";
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // detect RTL
+  const [isRTL, setIsRTL] = useState(false);
+
+  useEffect(() => {
+    setIsRTL(document?.dir === "rtl");
+  }, []);
+
+  useEffect(() => {
+    const activeEl = navRef.current?.querySelector<HTMLAnchorElement>(
+      "a[data-active='true']"
+    );
+    if (activeEl && navRef.current) {
+      navRef.current.style.setProperty("--indicator-top", `${activeEl.offsetTop}px`);
+      navRef.current.style.setProperty("--indicator-height", `${activeEl.offsetHeight}px`);
+    }
+  }, [pathname]);
 
   return (
-    <aside className="w-12 md:w-64 bg-primary-800 text-white flex flex-col fixed inset-y-0">
+    <aside className="w-12 md:w-64 bg-primary-800 text-white flex flex-col fixed inset-y-0 shadow">
+      {/* Logo */}
       <div className="flex justify-center border-b border-text-100 px-2 mb-6 h-[45px]">
         <Image
           src="/images/light.png"
@@ -44,39 +64,52 @@ export default function Sidebar() {
         </span>
       </div>
 
-      <nav className="flex-1 space-y-2">
-        {sidebarLinks.map(({ path, label, icon: Icon }) => {
-          const href = `/${locale}/home/${path}`;
-          const isActive = pathname === href;
+      {/* Nav with moving indicator */}
+      <nav ref={navRef} className="flex-1 relative">
+        <div className="space-y-2">
+          {sidebarLinks.map(({ path, label, icon: Icon }) => {
+            const href = `/${locale}/home/${path}`;
+            const isActive = pathname === href;
 
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md text-[16px] font-bold transition ${
-                isActive
-                  ? "text-primary-400 border-l-[5px] rtl:border-r-[5px] rtl:border-l-0 border-primary-400 rounded-none"
-                  : "hover:bg-white/10"
-              }`}
-            >
-              <Icon className="w-5 h-5" />
-              <span className="hidden md:block">{t(label)}</span>
-            </Link>
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`relative flex items-center gap-3 px-3 py-2  text-[16px] font-bold transition-colors ${
+                  isActive ? "text-primary-300" : "hover:bg-white/10"
+                }`}
+                data-active={isActive}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="hidden md:block">{t(label)}</span>
+              </Link>
             );
-        })}
+          })}
+        </div>
 
-        {/* Logout button */}
-        <button
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-[16px] font-bold hover:text-red-700"
-          onClick={() => {
-            clearAccessToken();
-            router.replace("/", { scroll: false });
+        {/* animated border */}
+        <span
+          className={`absolute ${
+            isRTL ? "right-0" : "left-0"
+          } w-[5px] bg-primary-400 transition-all duration-300`}
+          style={{
+            top: "var(--indicator-top, 0px)",
+            height: "var(--indicator-height, 0px)",
           }}
-        >
-          <IoLogOut className="w-5 h-5" />
-          <span className="hidden md:block">{t("logout")}</span>
-        </button>
+        />
       </nav>
+
+      {/* Logout */}
+      <button
+        className="flex items-center gap-3 px-3 py-2 rounded-md text-[16px] font-bold hover:text-red-700"
+        onClick={() => {
+          clearAccessToken();
+          router.replace("/", { scroll: false });
+        }}
+      >
+        <IoLogOut className="w-5 h-5" />
+        <span className="hidden md:block">{t("logout")}</span>
+      </button>
     </aside>
   );
 }

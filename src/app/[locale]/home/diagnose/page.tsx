@@ -6,11 +6,14 @@ import NewDiagnoseForm from "@/components/NewDiagnoseForm";
 import NewTreatmentForm from "@/components/NewTreatmentForm";
 import { Search,X } from "lucide-react";
 import { FaRegEye as Eye } from "react-icons/fa";
-import { getDiagnoses, getPatients, getTreatments } from "@/lib/users";
+import { TbTrashXFilled } from "react-icons/tb";
+import { deleteDiagnosis, getDiagnoses, getPatients, getTreatments } from "@/lib/users";
 import IconBook from "@/components/IconBook";
 import Image from "next/image";
 import { mockDiagnoses,mockPatients,mockTreatments } from "@/mockdata";
 import { Diagnose,Patient,Treatment } from "@/types/users";
+import Spinner from "@/components/Spinner";
+import DeleteConfirmPopUP from "@/components/DeletetConfirmPopUp";
 
 
 const placeholderImg = "/images/fundusPlaceHolder.jpg";
@@ -20,14 +23,17 @@ export default function DiagnosePage() {
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [showTreatmentForm, setShowTreatmentForm] = useState(false);
-  const [diagnoses, setDiagnoses] = useState<Diagnose[]>(mockDiagnoses);
-  const [patients, setPatients] = useState<Patient[]>(mockPatients);
-  const [treatments, setTreatments] = useState<Treatment[]>(mockTreatments);
+  const [diagnoses, setDiagnoses] = useState<Diagnose[]>([]);
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [treatments, setTreatments] = useState<Treatment[]>([]);
   const [selectedDiagnoseID,setSelectedDiagnoseID] =useState<string>("");
   const [loading, setLoading] = useState(true);
   const [selectedTreatment, setSelectedTreatment] = useState<Treatment | null>(
     null
   );
+  const [selectedId,setSelectedId] = useState('');
+  const [showPopUp, setShowPopUp] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,8 +53,16 @@ export default function DiagnosePage() {
       }
     };
     fetchData();
-    setLoading(false)
   }, []);
+
+  const handleDeleteDiagnose =  (id:string) => {
+      deleteDiagnosis(id).then(() => {
+      setDiagnoses((prev) => prev.filter((item) => item.id !== id));
+    })
+    .catch(() => {
+    });
+    };
+  
 
   const successfulDiagnoses = useMemo(() => {
     const getMaxKey = (obj: Record<string, number>) =>
@@ -109,7 +123,7 @@ export default function DiagnosePage() {
 
       {/* Diagnoses List */}
       {loading ? (
-        <p>{t("loading")}...</p>
+        <Spinner/>
       ) : filteredDiagnoses.length === 0 ? (
         <p className="text-text-700">{t("noResults")}</p>
       ) : (
@@ -121,7 +135,7 @@ export default function DiagnosePage() {
                 key={d.id}
                 className="relative rounded-md shadow hover:shadow-primary-400 transition px-4 py-2 shadow-sm bg-white"
               >
-                <span className="absolute  rtl:left-2 right-2 rtl:right-auto  text-sm text-primary-800 ">
+                <span className="absolute  rtl:left-2 right-2 rtl:right-auto text-[8px] md:text-sm text-primary-800 ">
                   {new Date(d.created_at).toLocaleString('en-US', {
                             year: 'numeric',
                             month: 'short',
@@ -159,12 +173,12 @@ export default function DiagnosePage() {
                 <div className="flex flex-col gap-2 md:flex-row justify-between">
                   <div className="lg:w-1/3"> 
                     <p>
-                      <span className="font-semibold">{t("leftEye")}:</span>{" "}
-                      {d.left_diagnostic || "-"}
+                      <span className="font-semibold">{t("leftEyeResult")}:</span>{" "}
+                      {t(d.left_diagnostic) || "-"}
                     </p>
                     <p>
-                      <span className="font-semibold">{t("rightEye")}:</span>{" "}
-                      {d.right_diagnostic || "-"}
+                      <span className="font-semibold">{t("rightEyeResult")}:</span>{" "}
+                      {t(d.right_diagnostic) || "-"}
                     </p>
                     <p>
                       <span className="font-semibold">{t("notes")}:</span>{" "}
@@ -173,15 +187,22 @@ export default function DiagnosePage() {
                   </div>
 
                   {/* Fundus Images */}
-                  <div className="flex justify-center lg:w-2/3 rtl:flex-row-reverse gap-6 mb-3">
+                  <div className="flex justify-evenly lg:w-2/3 rtl:flex-row-reverse gap-6 mb-3">
+                  
+                  {/* left Fundus */}
                     <div className="text-center">
-                      <Image
+                      <div className="rounded-full overflow-hidden border-3 border-primary-800 b">
+                        <Image
                         src={d.left_fundus_image||placeholderImg}
+                        onError={()=>d.left_fundus_image = null}
                         alt="Left Fundus"
                         width={96}
                         height={96}
-                        className="w-24 h-24 object-cover rounded border"
+                        className="w-24 h-24 object-cover"
                       />
+
+                      </div>
+                      
                       <div className="flex rtl:flex-row-reverse items-center justify-center gap-1">
                         <Eye className="text-primary-400"/>
                         <Eye/>
@@ -190,14 +211,19 @@ export default function DiagnosePage() {
                       <p className="text-xs mt-1 font-bold">
                         {t("leftEye")}</p>
                     </div>
+                    <span className="block h-30 w-[2px] bg-text-400"></span>
+                    {/* right Fundus */}
                     <div className="text-center">
-                      <Image
-                        src={d.left_fundus_image||placeholderImg}
-                        alt="Right Fundus"
-                        width={96}
-                        height={96}
-                        className="w-24 h-24 object-cover rounded border"
-                      />
+                      <div className="w-fit rounded-full overflow-hidden border-3 border-primary-800">
+                          <Image
+                            src={d.right_fundus_image||placeholderImg}
+                            alt="Right Fundus"
+                            onError={()=>d.right_fundus_image = null}
+                            width={96}
+                            height={96}
+                            className="w-24 h-24 object-cover"
+                          />
+                      </div>
                       <div className="flex rtl:flex-row-reverse items-center justify-center gap-1">
                         <Eye />
                         <Eye className="text-primary-400"/>
@@ -206,9 +232,10 @@ export default function DiagnosePage() {
                     </div>
                   </div>
                 </div>
-
-                {/*Treatment Button*/}
-                <div className="mt-2">
+                    {/*buttons*/}
+                <div className="flex justify-between gap-2 mt-2">
+                  {/*treatment button*/}
+                  <div className="">
                   {treatment ? (
                     <button
                       onClick={() =>{
@@ -236,6 +263,17 @@ export default function DiagnosePage() {
                     </button>
                   )}
                 </div>
+                  {/*delete button*/}
+                <button onClick={()=>{setShowPopUp(true);setSelectedId(d.id)}} 
+                className=" btn !bg-red-900 hover:!bg-red-800 text-text-100 rounded-md transition">
+                  <TbTrashXFilled/>
+                  </button>
+
+                </div>
+
+              
+        
+                
               </li>
             );
           })}
@@ -302,6 +340,21 @@ export default function DiagnosePage() {
           </div>
         </div>
       )}
+
+      {showPopUp && (
+              <DeleteConfirmPopUP 
+              onClose={() =>{setShowPopUp(false);setSelectedId("")}} 
+              onDelete={() => handleDeleteDiagnose(selectedId) }
+              onSuccess={async () => {
+                          setShowPopUp(false);
+                          setSelectedId("")
+                          const diagnosisData = await getDiagnoses();
+                          const treatmentsData = await getTreatments();
+                          setDiagnoses(diagnosisData);
+                          setTreatments(treatmentsData)
+                        }}
+              recordType="diagnosis" />
+            )}
     </div>
   );
 }

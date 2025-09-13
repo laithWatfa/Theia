@@ -18,7 +18,7 @@ type Props = {
 
 export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
   const t = useTranslations();
-  const [patients, setPatients] = useState<Patient[]>(mockPatients);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [query, setQuery] = useState("");
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [appointmentDateTime, setAppointmentDateTime] = useState("");

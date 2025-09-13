@@ -15,7 +15,7 @@ type Props = {
 
 export default function NewDiagnoseForm(    { onClose, onSuccess }: Props) {
 const t = useTranslations();
-  const [patients, setPatients] = useState<Patient[]>(mockPatients);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [query, setQuery] = useState("");
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [leftImage, setLeftImage] = useState<File | null>(null);
@@ -117,10 +117,10 @@ const t = useTranslations();
           </div>
 
           {/* Fundus images */}
-          <div className="flex justify-center rtl:flex-reverse gap-6">
+          <div className="flex  justify-evenly rtl:flex-reverse gap-6">
             {/* Left Fundus */}
             <div className="flex flex-col items-center">
-              <label className="border-2 border-primary-700 hover:border-primary-400 flex flex-col items-center justify-center w-32 h-32 bg-text-300 
+              <label className="shadow-lg border-2 border-primary-700 hover:border-primary-400 flex flex-col items-center justify-center w-32 h-32 bg-text-100 
               hover:bg-primary-200  hover:text-primary-400 transition rounded-full cursor-pointer overflow-hidden">
                 {leftImage ? (
                   <img
@@ -143,11 +143,14 @@ const t = useTranslations();
               </label>
               <p className="mt-2 font-bold">{t("leftEye")}</p>
             </div>
+            <span className="h-32 rounded-full w-[2px] bg-text-400">
+
+            </span>
 
             {/* Right Fundus */}
             <div className="flex flex-col items-center">
-              <label className="border-2 border-primary-700 
-              hover:text-primary-400 hover:border-primary-400 flex flex-col items-center justify-center w-32 h-32 bg-text-300 hover:bg-primary-200 transition rounded-full cursor-pointer overflow-hidden">
+              <label className="shadow-lg border-2 border-primary-700 
+              hover:text-primary-400 hover:border-primary-400 flex flex-col items-center justify-center w-32 h-32 bg-text-100 hover:bg-primary-200 transition rounded-full cursor-pointer overflow-hidden">
                 {rightImage ? (
                   <img
                     src={URL.createObjectURL(rightImage)}

@@ -12,6 +12,7 @@ import { getTreatments } from "@/lib/users";
 import { usePathname } from "next/navigation";
 import { Treatment } from "@/types/users";
 import { mockTreatments } from "@/mockdata";
+import Spinner from "@/components/Spinner";
 
 
 
@@ -19,7 +20,7 @@ export default function TreatmentsPage() {
   const pathname = usePathname()
   const t = useTranslations();
   const [search, setSearch] = useState("");
-  const [treatments, setTreatments] = useState<Treatment[]>(mockTreatments);
+  const [treatments, setTreatments] = useState<Treatment[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ export default function TreatmentsPage() {
 
       {/* Treatments List */}
       {loading ? (
-        <p>{t("loading")}...</p>
+        <Spinner/>
       ) : filteredTreatments.length === 0 ? (
         <p className="text-gray-500">{t("noResults")}</p>
       ) : (
@@ -92,17 +93,17 @@ export default function TreatmentsPage() {
                   <Patient className="" />{treat.patient_name}
                 </h3>
                 
-                <p className="flex gap-1 items-center border-b border-text-500 py-[2px]">
+                <p className="flex flex-wrap gap-1 items-start border-b border-text-500 py-[2px]">
                   <Medication className="text-primary-400"/><strong>{t("medication")}:</strong> {treat.medication}
                 </p>
-                <p className="flex gap-1 items-center border-b border-text-500 py-[2px]">
+                <p className="flex flex-wrap gap-1 items-start border-b border-text-500 py-[2px]">
                   <Dosage className="text-primary-400"/><strong>{t("dosage")}:</strong> {treat.dosage}
                 </p>
-                <p className="flex gap-1 items-center border-b border-text-500 py-[2px]">
+                <p className="flex flex-wrap gap-1 items-start border-b border-text-500 py-[2px]">
                   <IconCare className="text-primary-400"/><strong>{t("instructions")}:</strong> {treat.instructions}
                 </p>
                 
-                <p className="flex gap-1 items-center py-[2px]">
+                <p className="flex flex-wrap gap-1 items-start py-[2px]">
                   <IconSurgery className="text-primary-400"/><strong>{t("surgicalInterventions")}:</strong>{" "}{treat.surgical_interventions}
                 </p>
               </li>

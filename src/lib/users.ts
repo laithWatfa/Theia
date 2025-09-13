@@ -1,3 +1,4 @@
+import { Bill } from "@/types/users";
 import api from "./api";
 
 export function getUserProfile() {
@@ -72,3 +73,28 @@ export function newBill(data: {
 }
 
 
+export function deletePatient(id: string) {
+  return api.delete(`/api/users/users/patients/${id}/`).then((res) => res.data);
+
+}
+
+export function deleteDiagnosis(id: string) {
+  return api.delete(`/api/diagnoses/${id}/`).then((res) => res.data);
+}
+
+export function deleteAppointment(id: string) {
+  return api.delete(`/api/users/users/appointments/${id}`).then((res) => res.data);
+}
+
+export function deleteTreatment(id: string) {
+  return api.delete(`/api/users/users/treatment-plans/${id}/`).then((res) => res.data);
+}
+
+export function deleteBill(id: string) {
+  return api.delete(`/api/users/users/bills/${id}/`).then((res) => res.data);
+}
+
+
+export function updateBillStatus(bill : Bill) {
+  return api.put(`/api/users/users/bills/${bill.id}/`, bill).then((res) => res.data);
+}
