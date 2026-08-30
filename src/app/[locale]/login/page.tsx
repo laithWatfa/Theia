@@ -13,7 +13,6 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +23,7 @@ export default function LoginPage() {
     try {
       await login(username, password); // sets access token
       router.push("/home/patients");
-    } catch (err: unknown) {
+    } catch {
       setError("Invalid username or password");
     } finally {
       setLoading(false);

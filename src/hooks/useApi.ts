@@ -1,7 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api";
+import { AxiosRequestConfig } from "axios";
 
-export function useApi<T>(endpoint: string, options?: { method?: string; body?: any }) {
+export function useApi<T>(
+    endpoint: string,
+    options?: {
+        method?: AxiosRequestConfig["method"];
+        body?: unknown;
+    }
+) {
 const [data, setData] = useState<T | null>(null);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState<string | null>(null);
@@ -11,12 +18,15 @@ const fetchData = useCallback(async () => {
         setLoading(true);
         setError(null);
         const method = options?.method?.toLowerCase() || "get";
-        const res = await (api as any)[method](endpoint, options?.body);
-        console.log(res);
-        console.log(res.data)
+        const res = await api.request<T>({
+            url: endpoint,
+            method: options?.method ?? "GET",
+            data: options?.body,
+        });
         setData(res.data);
-    } catch (err: any) {
-        setError(err.message);
+    } catch (err: unknown) {
+        if(err instanceof Error) setError(err.message);
+        else setError("An unexpected error occurred");
     } finally {
         setLoading(false);
     }

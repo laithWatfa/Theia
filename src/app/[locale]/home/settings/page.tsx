@@ -12,7 +12,7 @@ type Profile = {
   first_name: string;
   last_name: string;
   email: string;
-  spicialzaton: string;
+  specialization: string;
   phone: string;
 };
 
@@ -22,7 +22,7 @@ const staticProfile = {
     "first_name": "Magd",
     "last_name": "Hndi",
     "email": "doctor.new@example.com",
-    "spicialzaton": "Eyes",
+    "specialization": "Eyes",
     "phone": "1234567890"
 }
 
@@ -44,8 +44,10 @@ export default function SettingsPage() {
         const data = await getUserProfile(); 
         setProfile(data);
         // setProfile(staticProfile);
-    } catch (err: any) {
-        setError(err.message || "Failed to load profile");
+    } catch (err: unknown) {
+        if(err instanceof Error) setError(err.message || "Failed to load profile");
+        else setError("Failed to load profile")
+        
       } finally {
         setLoading(false);
       }
@@ -88,7 +90,7 @@ export default function SettingsPage() {
           </div>
           <div className="py-2 border-b-1 border-text-300">
             <span className="font-bold">{t("specialization")}:</span>{" "}
-            {profile.spicialzaton}
+            {profile.specialization}
           </div>
           <div className="py-2 ">
             <span className="font-bold">{t("phone")}:</span> {profile.phone}

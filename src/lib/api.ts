@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const API_BASE = "https://d00646c54457.ngrok-free.app";
 
 let accessToken: string | null = null;
+
+const isMock =
+  process.env.NEXT_PUBLIC_API_MODE === "mock";
 
 export function setAccessToken(token: string) {
   accessToken = token;
@@ -28,8 +30,10 @@ export function clearAccessToken() {
 
 // axios instance
 const api = axios.create({
-  baseURL: API_BASE,
-  withCredentials: true, 
+  baseURL: isMock
+    ? ""
+    : process.env.NEXT_PUBLIC_API_URL,
+  // withCredentials: true, 
 });
 
 api.interceptors.request.use((config) => {
@@ -51,7 +55,7 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.post(
-          `${API_BASE}/api/users/auth/token/refresh/`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/users/auth/token/refresh/`,
           {},
           { withCredentials: true }
         );
@@ -60,7 +64,7 @@ api.interceptors.response.use(
 
         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
         return api(originalRequest);
-      } catch (e) {
+      } catch {
         clearAccessToken();
         throw new Error("Unauthorized - please login again");
       }

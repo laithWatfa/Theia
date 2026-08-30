@@ -36,8 +36,8 @@ export default function NewBillForm({ appointmentId, onClose, onSuccess }: Props
       console.log("Submitting Bill:", payload);
       await newBill(payload);
       onSuccess();
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      if(err instanceof Error) setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

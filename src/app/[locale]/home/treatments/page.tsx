@@ -11,7 +11,6 @@ import { FaPrescriptionBottleMedical as Medication , FaSyringe as Dosage ,  } fr
 import { getTreatments } from "@/lib/users"; 
 import { usePathname } from "next/navigation";
 import { Treatment } from "@/types/users";
-import { mockTreatments } from "@/mockdata";
 import Spinner from "@/components/Spinner";
 
 

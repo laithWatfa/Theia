@@ -13,12 +13,12 @@ export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
     role: "DOCTOR",
-    spicialzaton: "",
+    specialization: "",
     password: "",
     password2: "",
   });
@@ -37,11 +37,11 @@ export default function SignupPage() {
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.username.trim()) newErrors.username = t("errors.usernameRequired");
-    if (!formData.first_name.trim()) newErrors.first_name = t("errors.firstNameRequired");
-    if (!formData.last_name.trim()) newErrors.last_name = t("errors.last_nameRequired");
+    if (!formData.firstName.trim()) newErrors.firstName = t("errors.firstNameRequired");
+    if (!formData.lastName.trim()) newErrors.lastName = t("errors.lastNameRequired");
     if (!formData.role.trim()) newErrors.role = t("errors.roleRequired");
-    if (!formData.spicialzaton.trim())
-      newErrors.spicialzaton = t("errors.specializationRequired");
+    if (!formData.specialization.trim())
+      newErrors.specialization = t("errors.specializationRequired");
     if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       newErrors.email = t("errors.invalidEmail");
     }
@@ -208,13 +208,13 @@ export default function SignupPage() {
                 </label>
                 <input
                   type="text"
-                  name="first_name"
-                  value={formData.first_name}
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   placeholder={t("placeholders.firstName")}
                   className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
                 />
-                <InputError error={errors.first_name} />
+                <InputError error={errors.firstName} />
               </div>
               <div className="flex-1">
                 <label className="block text-sm font-semibold mb-[2px]">
@@ -222,13 +222,13 @@ export default function SignupPage() {
                 </label>
                 <input
                   type="text"
-                  name="last_name"
-                  value={formData.last_name}
+                  name="lastName"
+                  value={formData.lastName}
                   onChange={handleChange}
                   placeholder={t("placeholders.lastName")}
                   className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
                 />
-                <InputError error={errors.last_name} />
+                <InputError error={errors.lastName} />
               </div>
             </div>
 
@@ -240,13 +240,13 @@ export default function SignupPage() {
                 </label>
                 <input
                   type="text"
-                  name="spicialzaton"
-                  value={formData.spicialzaton}
+                  name="specialization"
+                  value={formData.specialization}
                   onChange={handleChange}
                   placeholder={t("placeholders.specialization")}
                   className="w-full py-1 px-3 border border-primary-400 rounded-md outline-none"
                 />
-                <InputError error={errors.spicialzaton} />
+                <InputError error={errors.specialization} />
               </div>
             </div>
 

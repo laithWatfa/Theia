@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { getPatients, newAppointment } from "@/lib/users";
-import { mockPatients } from "@/mockdata";
 
 type Patient = {
   id: string;
@@ -31,9 +30,8 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
       try {
         const data: Patient[] = await getPatients();
         setPatients(data);
-      } catch (err: any) {
-        console.error(err);
-        setError("Could not load patients");
+      } catch (err: unknown) {
+        if(err instanceof Error) setError("Could not load patients");
       }
     };
     fetchPatients();
@@ -56,8 +54,8 @@ export default function NewAppointmentForm({ onClose, onSuccess }: Props) {
       };
       await newAppointment(payload);
       onSuccess();
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      if(err instanceof Error) setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

@@ -6,10 +6,8 @@ import { Search } from "lucide-react";
 import { MdToday as DateIcon } from "react-icons/md";
 import { FaUser as Patient } from "react-icons/fa";
 import { FaMoneyBillWave as BillIcon } from "react-icons/fa";
-import { FaCheckCircle as PaidIcon, FaTimesCircle as UnpaidIcon } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { getBills, updateBillStatus } from "@/lib/users"; 
-import { mockBills } from "@/mockdata";
 import { Bill } from "@/types/users";
 import Spinner from "@/components/Spinner";
 

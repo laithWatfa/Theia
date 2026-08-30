@@ -1,16 +1,15 @@
 "use client";
-import { useState, useMemo, useEffect, use } from "react";
+import { useState, useMemo, useEffect,} from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { TbTrashXFilled } from "react-icons/tb";import { useApi } from "@/hooks/useApi";
+import { TbTrashXFilled } from "react-icons/tb";
 import AddPatientForm from "@/components/AddPatientForm";
 import DeleteConfirmPopUP from "@/components/DeletetConfirmPopUp";
 import { addNewPatient, deletePatient, getPatients } from "@/lib/users";
 import { useTranslations } from "next-intl";
 import { Patient } from "@/types/users";
-import { mockPatients } from "@/mockdata";
 import Spinner from "@/components/Spinner";
 
 export default function PatientsPage() {

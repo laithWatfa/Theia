@@ -10,7 +10,6 @@ import { TbTrashXFilled } from "react-icons/tb";
 import { deleteDiagnosis, getDiagnoses, getPatients, getTreatments } from "@/lib/users";
 import IconBook from "@/components/IconBook";
 import Image from "next/image";
-import { mockDiagnoses,mockPatients,mockTreatments } from "@/mockdata";
 import { Diagnose,Patient,Treatment } from "@/types/users";
 import Spinner from "@/components/Spinner";
 import DeleteConfirmPopUP from "@/components/DeletetConfirmPopUp";
@@ -133,7 +132,7 @@ export default function DiagnosePage() {
             return (
               <li
                 key={d.id}
-                className="relative rounded-md shadow hover:shadow-primary-400 transition px-4 py-2 shadow-sm bg-white"
+                className="relative rounded-md  hover:shadow-primary-400 transition px-4 pt-2 pb-12 shadow-sm bg-white"
               >
                 <span className="absolute  rtl:left-2 right-2 rtl:right-auto text-[8px] md:text-sm text-primary-800 ">
                   {new Date(d.created_at).toLocaleString('en-US', {
@@ -157,7 +156,7 @@ export default function DiagnosePage() {
                     alt={d.patient_name}
                     width={40}
                     height={40}
-                    className="w-10 h-10 border-2 border-primary-700 rounded-full object-cover border"
+                    className="w-10 h-10 border-primary-700 rounded-full object-cover border"
                   />
                   <div>
                     <h3 className="font-bold">{d.patient_name}</h3>
@@ -233,7 +232,7 @@ export default function DiagnosePage() {
                   </div>
                 </div>
                     {/*buttons*/}
-                <div className="flex justify-between gap-2 mt-2">
+                <div className="flex justify-between gap-2 mt-2 absolute w-[94%] bottom-2 right-4">
                   {/*treatment button*/}
                   <div className="">
                   {treatment ? (

@@ -45,9 +45,9 @@ export default function NewTreatmentForm({
 
       await newTreatment(payload); 
       onSuccess();
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      if(err instanceof Error) setError(err.message || "Something went wrong");
+      setError("Something went wrong");
     } finally {
       setLoading(false);
     }

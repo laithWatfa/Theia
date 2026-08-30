@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { getPatients, newDiagnose } from "@/lib/users";
 import { Patient } from "@/types/users";
-import { mockPatients } from "@/mockdata";
 
 
 type Props = {
@@ -29,8 +28,7 @@ const t = useTranslations();
       try {
         const data = (await getPatients()) as Patient[];
         setPatients(data)
-      } catch (err: any) {
-        console.error(err);
+      } catch {;
         setError("Could not load patients");
       }
     };
@@ -62,8 +60,8 @@ const t = useTranslations();
         if (rightImage) formData.append("right_fundus_image", rightImage);
         await newDiagnose(formData);
         onSuccess();
-    } catch (err: any) {
-        setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+        if(err instanceof Error) setError(err.message || "Something went wrong");
     } finally {
         setLoading(false);
     }

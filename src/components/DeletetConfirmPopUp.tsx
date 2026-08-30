@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { TbTrashXFilled } from "react-icons/tb";import { useApi } from "@/hooks/useApi";
+import { TbTrashXFilled } from "react-icons/tb";
 
 
 type Props = {
@@ -24,8 +24,8 @@ export default function DeleteConfirmPopUP({ onClose, onSuccess,onDelete,recordT
     try {
       onDelete();
       onSuccess();
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      if(err instanceof Error)  setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

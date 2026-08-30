@@ -4,13 +4,12 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Search } from "lucide-react";
 import { TbTrashXFilled } from "react-icons/tb";
-import { getAppointments, getPatients, getBills, deleteAppointment } from "@/lib/users";
+import { getAppointments, getBills, deleteAppointment } from "@/lib/users";
 import NewAppointmentForm from "@/components/NewAppointmentForm";
 import NewBillForm from "@/components/NewBillForm";
 import { usePathname } from "next/navigation";
 import { FaMoneyBills } from "react-icons/fa6";
 import { Bill,Appointment } from "@/types/users";
-import { mockBills,mockAppointments } from "@/mockdata";
 import DeleteConfirmPopUP from "@/components/DeletetConfirmPopUp";
 import Spinner from "@/components/Spinner";
 
@@ -125,10 +124,11 @@ export default function AppointmentsPage() {
             return (
               <li
                 key={a.id}
-                className="relative flex flex-col gap-2 transition hover:translate-y-[-2px] rounded-md px-4 py-2 shadow-sm hover:shadow-md bg-white"
+                className="relative flex flex-col  transition hover:translate-y-[-2px] 
+                rounded-md px-4  shadow-sm hover:shadow-md bg-white"
               >
                 {/* Day */}
-                <div className="flex gap-2 items-center">
+                <div className="flex h-full gap-2 items-center">
                   <div className="h-full w-14 flex flex-col justify-center items-center ltr:pr-4  ltr:border-r-2 rtl:pl-4 rtl:border-l-2 border-primary-400 text-primary-400">
                     <span className="font-bold">{weekday.toUpperCase()}</span>
                     <span className="font-bold">{dayOfMonth}</span>
