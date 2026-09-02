@@ -33,7 +33,7 @@ const api = axios.create({
   baseURL: isMock
     ? ""
     : process.env.NEXT_PUBLIC_API_URL,
-  // withCredentials: true, 
+  withCredentials: true, 
 });
 
 api.interceptors.request.use((config) => {

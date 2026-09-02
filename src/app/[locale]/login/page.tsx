@@ -10,8 +10,8 @@ import { useTranslations } from "next-intl";
 export default function LoginPage() {
   const t = useTranslations()
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("doctor");
+  const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -91,12 +91,12 @@ export default function LoginPage() {
                   className="w-full py-2 outline-none"
                 />
               </div>
-              <div className="flex justify-between text-xs mt-2">
+              {/* <div className="flex justify-between text-xs mt-2">
               
                 <a href="#" className="text-primary-400">
                   {t("forgetPass")}
                 </a>
-              </div>
+              </div> */}
             </div>
             {/* Error Message */}
             {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -108,7 +108,7 @@ export default function LoginPage() {
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? "Logging in..." : t("login")}
+              {loading ? `${t("logging")}...` : t("login")}
             </button>
           </form>
         </div>

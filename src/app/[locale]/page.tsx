@@ -31,7 +31,7 @@ export default function Hero() {
       <main className="relative z-10 flex text-center flex-col lg:flex-row  pt-5 items-center sm:justify-between h-full w-4/5 m-auto gap-4">
         {/* Left Text Content */}
         <div className="max-w-xl text-center lg:text-start">
-          <h1 className="text-2xl md:text-4xl md:text-5xl font-bold text-text-900 leading-tight">
+          <h1 className="text-2xl md:text-4xl  font-bold text-text-900 leading-tight">
             <span className="text-primary-400">{t("theia")} </span> {t("heroH1")} <br />
             {t("heroH2")} 
           </h1>
