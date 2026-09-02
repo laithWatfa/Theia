@@ -88,7 +88,7 @@ export default function SignupPage() {
           {/* Logo */}
           <Image
             src="/images/dark.png"
-            alt={t("alt.logo")}
+            alt={"logo"}
             width={300}
             height={300}
             className="w-32 h-11 object-cover"
