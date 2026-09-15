@@ -83,7 +83,7 @@ export default function TreatmentsPage() {
             return (
               <li
                 key={treat.id}
-                className="text-sm relative flex flex-col bg-text-600 rounded-md px-4 py-2 shadow transition hover:translate-y-[-2px] hover:shadow-lg bg-white"
+                className="text-sm relative flex flex-col rounded-md px-4 py-2 shadow transition hover:translate-y-[-2px] hover:shadow-lg bg-white"
               >
                 <p className="absolute top-1 right-2 rtl:left-2 rtl:right-auto flex items-center gap-1 rtl:flex-row-reverse text-[12px] text-primary-800">
                   <Appointments/>{formattedDate}

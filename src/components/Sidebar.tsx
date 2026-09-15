@@ -53,7 +53,7 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="flex justify-center border-b border-text-100 px-2 mb-6 h-[45px]">
         <Image
-          src="/images/light.png"
+          src="/images/light.webp"
           width={300}
           height={300}
           alt="logo"

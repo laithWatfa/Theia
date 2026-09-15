@@ -150,8 +150,8 @@ export default function DiagnosePage() {
                     src={
                       d.patient_photo ||
                       (d.patient_gender?.toLowerCase().includes("female")
-                        ? "/images/female.png"
-                        : "/images/male.png")
+                        ? "/images/female.webp"
+                        : "/images/male.webp")
                     }
                     alt={d.patient_name}
                     width={40}

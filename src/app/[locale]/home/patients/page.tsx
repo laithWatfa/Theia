@@ -106,7 +106,7 @@ export default function PatientsPage() {
                   <Image
                     src={
                       patient.personal_photo ||
-                      (patient.gender.toLowerCase() === "female" ? "/images/female.png" : "/images/male.png")
+                      (patient.gender.toLowerCase() === "female" ? "/images/female.webp" : "/images/male.webp")
                     }
                     alt={patient.full_name}
                     width={40}

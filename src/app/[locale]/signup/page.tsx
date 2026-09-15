@@ -79,7 +79,7 @@ export default function SignupPage() {
       {/* Left Side */}
       <div
         className="hidden md:flex w-1/2 bg-gray-50 bg-center bg-cover"
-        style={{ backgroundImage: "url('/images/backgroundPatternB.png')" }}
+        style={{ backgroundImage: "url('/images/BackgroundPatternB.webp')" }}
       ></div>
 
       {/* Right Side */}
@@ -87,7 +87,7 @@ export default function SignupPage() {
         <div className="w-full max-w-md flex flex-col items-center">
           {/* Logo */}
           <Image
-            src="/images/dark.png"
+            src="/images/dark.webp"
             alt={"logo"}
             width={300}
             height={300}

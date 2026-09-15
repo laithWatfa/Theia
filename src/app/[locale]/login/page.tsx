@@ -32,11 +32,12 @@ export default function LoginPage() {
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Left Side - Login Form */}
-      <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-8">
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-8 relative">
+        <div className="text-3xl absolute py-4 px-2 bg-red-600 text-white rounded-md top-2 right-2">Live Demo</div>
         <div className="w-full max-w-md flex flex-col items-center">
           {/* Logo */}
           <Image
-            src="/images/dark.png"
+            src="/images/dark.webp"
             alt="Vision test"
             width={300}
             height={300}
@@ -117,7 +118,7 @@ export default function LoginPage() {
       {/* Right Side - Pattern */}
       <div className="hidden md:flex w-1/2 bg-text-100 items-center justify-center">
         <Image
-          src="/images/backgroundPatternB.png"
+          src="/images/BackgroundPatternB.webp"
           alt="pattern"
           width={1200}
           height={1000}
